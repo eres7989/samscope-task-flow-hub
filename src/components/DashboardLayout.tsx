@@ -43,7 +43,7 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex w-full">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
@@ -51,12 +51,12 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
+        "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 lg:flex lg:flex-col",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
+          <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 flex-shrink-0">
             <div className="flex items-center space-x-3">
               <img 
                 src="/lovable-uploads/f01b03ac-dc19-4751-bb09-2dde6ff09d74.png" 
@@ -75,7 +75,7 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-2">
+          <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             {navigation.map((item) => (
               <button
                 key={item.id}
@@ -90,16 +90,16 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 )}
               >
-                <item.icon className="mr-3 h-5 w-5" />
+                <item.icon className="mr-3 h-5 w-5 flex-shrink-0" />
                 {item.name}
               </button>
             ))}
           </nav>
 
           {/* User profile */}
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-200 flex-shrink-0">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-sm font-medium">JD</span>
               </div>
               <div className="flex-1 min-w-0">
@@ -111,23 +111,25 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
         </div>
       </div>
 
-      {/* Main content */}
-      <div className="lg:pl-64">
+      {/* Main content area */}
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <div className="sticky top-0 z-40 flex h-16 bg-white border-b border-gray-200 shadow-sm">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="lg:hidden ml-4"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-          
-          <div className="flex-1 flex justify-between items-center px-6">
-            <h1 className="text-xl font-semibold text-gray-900 capitalize">
-              {activeSection.replace('-', ' ')}
-            </h1>
+        <div className="sticky top-0 z-40 flex h-16 bg-white border-b border-gray-200 shadow-sm flex-shrink-0">
+          <div className="flex items-center justify-between w-full px-4 lg:px-6">
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="lg:hidden"
+                onClick={() => setSidebarOpen(true)}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+              
+              <h1 className="text-xl font-semibold text-gray-900 capitalize">
+                {activeSection.replace('-', ' ')}
+              </h1>
+            </div>
             
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" className="relative">
@@ -141,8 +143,10 @@ export function DashboardLayout({ children, activeSection, onSectionChange }: Da
         </div>
 
         {/* Page content */}
-        <main className="p-6">
-          {children}
+        <main className="flex-1 p-4 lg:p-6 overflow-auto">
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
         </main>
       </div>
     </div>
